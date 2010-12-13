@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	if (test_1 == NULL) {
 		fprintf(stderr, "error: could not read lex_test_1.lon\n");
 		test_1 = file_read("tests/lex_test_1.lon");
-		if (test1 == NULL) {
+		if (test_1 == NULL) {
 			fprintf(stderr, "error: could not read tests/lex_test_1.lon\n");
 			return 1;
 		}
