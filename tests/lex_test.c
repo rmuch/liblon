@@ -6,6 +6,9 @@
 char *test1 = "{a = 1, b = 2, c = 3}";
 char *test2 = "{[\"a\"]=1;[\"b\"]    = 2;  [\"c\"] = 50; 30;20,{1,2,3}}";
 
+/**
+ * Helper function to read a file into a string.
+ */
 static char *file_read(char *path)
 {
 	FILE *f;

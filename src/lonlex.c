@@ -120,6 +120,7 @@ static LONToken *lex(LONLexState *state)
 			return t;
 		}
 
+		// XXX: Token position may not be saved properly.
 		c = LONInputPeek(state->input);
 
 		if (c == '\n') {
@@ -132,6 +133,7 @@ static LONToken *lex(LONLexState *state)
 			return t;
 		}
 
+		// Macro soup!
 		switch (state->type) {
 		case LEX_DEFAULT:
 			if (isalpha(c)) {
@@ -203,6 +205,7 @@ int LONLexRun(LONLexState *state)
 }
 
 void LONLexStateAppendToken(LONLexState *sta, LONToken *tok) {
+	// TODO: Move reallocation growth size to a constant or variable.
 	if (sta->tok_count == sta->tok_alloc) {
 		if (sta->tokens == NULL) {
 			sta->tokens = malloc(sizeof(LONToken *) * 20);

@@ -1,6 +1,7 @@
 #include "lon.h"
 #include "lonparse.h"
 
+#include <stdio.h>
 #include <stdbool.h>
 
 static bool lookAhead(LONParseState *s, LONTokenType t)
@@ -76,9 +77,12 @@ static LONNode *ParseLONField(LONParseState *s)
 
 static LONTable *ParseLONTable(LONParseState *s)
 {
-	if (match(s, TOK_LBRACE)) {
+	LONTable *tbl = LON_NEW(LONTable);
 
+	if (match(s, TOK_LBRACE)) {
+		printf("matched lbrace\n");
 	} else {
+		fprintf(stderr, "Expected TOK_LBRACE.\n");
 		// XXX: error
 	}
 }
@@ -88,6 +92,7 @@ static LONTable *ParseLONFile(LONParseState *s)
 	if (lookAhead(s, TOK_LBRACE)) {
 		LONTable *l = ParseLONTable(s);
 	} else {
+		fprintf(stderr, "Expected TOK_LBRACE.\n");
 		// XXX: error
 	}
 }
