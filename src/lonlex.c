@@ -159,11 +159,11 @@ static LONToken *lex(LONLexState *state)
 			if (isalpha(c)) {
 				LEX_EAT_ONE()
 			} else {
-				if (strcmp(BUF_STR(t->buf), "true")) {
+				if (strcmp(BUF_STR(t->buf), "true") == 0) {
 					t->type = TOK_TRUE;
-				} else if (strcmp(BUF_STR(t->buf), "false")) {
+				} else if (strcmp(BUF_STR(t->buf), "false") == 0) {
 					t->type = TOK_FALSE;
-				} else if (strcmp(BUF_STR(t->buf), "nil")) {
+				} else if (strcmp(BUF_STR(t->buf), "nil") == 0) {
 					t->type = TOK_NULL;
 				} else {
 					t->type = TOK_NAME;

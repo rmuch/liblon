@@ -124,10 +124,47 @@ void LONDebugFun1(LONParser *p)
 
 void pval(LONValue *v)
 {
-
+	LONTable *tbl;
+	LONNode *n;
+	switch (v->type) {
+	case LON_TYPE_NONE:
+		printf("none\n");
+		break;
+	case LON_TYPE_NUMBER:
+		printf("%d\n", v->var.num);
+		break;
+	case LON_TYPE_STRING:
+		printf("%s\n", v->var.str);
+		break;
+	case LON_TYPE_TABLE:
+		tbl = v->var.tbl;
+		if (v->var.tbl == NULL || tbl->head == NULL) {
+			printf("empty table\n");
+			return;
+		}
+		for (n = tbl->head; n != NULL; n = n->next) {
+			pval(&n->key);
+			pval(&n->val);
+		}
+		break;
+	case LON_TYPE_BOOL:
+		v->var.bln ? printf("true\n") : printf("false\n");
+		break;
+	case LON_TYPE_NIL:
+		printf("nil\n");
+		break;
+	default:
+		printf("unrecognised token\n");
+		break;
+	}
 }
 
+/* debug: print the whole syntax tree */
 void LONDebugFun2(LONParser *p)
 {
-
+	LONTable *t = p->parse->result;
+	LONValue *r = LON_NEW(LONValue);
+	r->type = LON_TYPE_TABLE;
+	r->var.tbl = t;
+	pval(r);
 }

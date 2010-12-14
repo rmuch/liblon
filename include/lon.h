@@ -3,12 +3,15 @@
 
 #define LON_API
 
+#include <stdbool.h>
+
 struct LONTable;
 
 typedef union LONVar {
 	char *str;
 	int num;
 	struct LONTable *tbl;
+	bool bln;
 } LONVar;
 
 typedef enum LONType {

@@ -58,6 +58,7 @@ static LONValue *ParseLONExpr(LONParseState *s)
 	LONValue *v = NULL;
 	LONToken *t;
 	LONTable *b;
+	bool c;
 
 	if (consume(s, TOK_STR)) {
 		t = last(s);
@@ -85,6 +86,20 @@ static LONValue *ParseLONExpr(LONParseState *s)
 		v = LON_NEW(LONValue);
 		v->type = LON_TYPE_TABLE;
 		v->var.tbl = b;
+	} else if (lookAhead(s, TOK_TRUE) || lookAhead(s, TOK_FALSE)) {
+		v = LON_NEW(LONValue);
+		v->type = LON_TYPE_BOOL;
+		c = consume(s, TOK_TRUE);
+		if (c == false) {
+			c = consume(s, TOK_FALSE);
+			v->var.bln = false;
+		} else {
+			v->var.bln = true;
+		}
+	} else if (consume(s, TOK_NULL)) {
+		v = LON_NEW(LONValue);
+		v->type = LON_TYPE_NIL;
+		v->var.num = 0;
 	} else {
 		fprintf(stderr, "Expected TOK_STR or TOK_NUM in expression.\n");
 	}
@@ -165,8 +180,13 @@ static LONTable *ParseLONTable(LONParseState *s)
 		// first field
 		b = ParseLONField(s);
 		if (b == NULL) {
-			fprintf(stderr, "Expected field.\n");
-			goto cleanup;
+			if (!consume(s, TOK_RBRACE)) {
+				fprintf(stderr, "Expected field.\n");
+				goto cleanup;
+			} else {
+				tbl->head = NULL;
+				goto success;
+			}
 		}
 		// keep going, appending to linked list
 		while (consume(s, TOK_COMMA) || consume(s, TOK_SEMICOLON)) {
@@ -182,22 +202,15 @@ static LONTable *ParseLONTable(LONParseState *s)
 			}
 		}
 		tbl->head = b;
-		/*
-		printf("matched lbrace\n");
-		do {
-			p = n;
-			n = ParseLONField(s);
-			if (n == NULL)
-				fprintf(stderr, "Error parsing field.\n");
-				goto cleanup;
-			if (p != NULL)
-				p->next = n;
-
-		} while (consume(s, TOK_COMMA) || consume(s, TOK_SEMICOLON));*/
+		if (!consume(s, TOK_RBRACE)) {
+			fprintf(stderr, "Expected TOK_RBRACE.\n");
+			goto cleanup;
+		}
 	} else {
 		fprintf(stderr, "Expected TOK_LBRACE.\n");
 		goto cleanup;
 	}
+success:
 	return tbl;
 cleanup:
 	LON_FREE(tbl);
