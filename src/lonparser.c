@@ -12,13 +12,14 @@ LONParser *LONParserCreate()
 	p->lex = LON_NEW(LONLexState);
 	p->lex->input = NULL;
 	p->parse = LON_NEW(LONParseState);
+	p->parse->result = NULL;
 	return p;
 }
 
 void LONParserDestroy(LONParser *p)
 {
 	LONLexStateFree(p->lex);
-	// TODO: free parse state
+	LONParseStateFree(p->parse);
 	free(p);
 }
 
@@ -119,4 +120,14 @@ void LONDebugFun1(LONParser *p)
 
 		i++;
 	}
+}
+
+void pval(LONValue *v)
+{
+
+}
+
+void LONDebugFun2(LONParser *p)
+{
+
 }

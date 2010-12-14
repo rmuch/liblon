@@ -6,8 +6,10 @@
 typedef struct LONParseState {
 	LONToken **tokens;
 	int idx;
+	LONTable *result;
 } LONParseState;
 
 int LONParseRun(LONParseState *s);
+void LONParseStateFree(LONParseState *state);
 
 #endif /* LONPARSE_H_ */

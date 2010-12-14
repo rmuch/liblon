@@ -44,6 +44,7 @@ typedef struct LONParser {
 } LONParser;
 
 LON_API void LONDebugFun1(LONParser *p);
+LON_API void LONDebugFun2(LONParser *p);
 
 LON_API LONParser *LONParserCreate();
 LON_API void LONParserDestroy(LONParser *parser);

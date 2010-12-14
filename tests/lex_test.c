@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 	LONParserParse(p, test_1);
 
 	LONDebugFun1(p);
+	LONDebugFun2(p);
 
 	LONParserDestroy(p);
 	free(test_1);
