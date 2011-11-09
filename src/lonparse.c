@@ -153,7 +153,16 @@ static LONNode *ParseLONField(LONParseState *s)
 	else {
 		vala = ParseLONExpr(s);
 		nod->key.type = LON_TYPE_NONE;
-		nod->val = *vala;
+
+		// XXX: We have a crash here when there are no items in a table.
+		//      Temporary workaround? I think this should do it.
+
+		if (vala != NULL) {
+			nod->val = *vala;
+		} else {
+			return NULL;
+		}
+
 		nod->next = NULL;
 		return nod;
 	}
