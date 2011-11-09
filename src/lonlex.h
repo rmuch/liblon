@@ -41,6 +41,7 @@ typedef struct LONToken {
 	LONTokenType type;
 	LONBuffer *buf;
 	int line;
+	int col;
 } LONToken;
 
 void LONTokenListFree(LONToken **tl);
@@ -50,6 +51,7 @@ static inline LONToken *LONTokenNew() {
 	tok->type = TOK_NONE;
 	tok->buf = BUF_NEW(10, -1);
 	tok->line = 0;
+	tok->col = 0;
 	return tok;
 }
 
@@ -67,6 +69,7 @@ typedef enum LONLexStateType {
 	LEX_NAME,
 	LEX_STRING,
 	LEX_NUMBER,
+	LEX_SLCOMMENT,
 } LONLexStateType;
 
 typedef struct LONLexState {
@@ -76,6 +79,7 @@ typedef struct LONLexState {
 	int tok_alloc;
 	int tok_count;
 	int line;
+	int col;
 } LONLexState;
 
 int LONLexRun(LONLexState *state);

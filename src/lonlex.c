@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+
 /*
 static LONToken *lex(LONLexState *state)
 {
@@ -95,15 +96,14 @@ static LONToken *lex(LONLexState *state)
 }
 */
 
-
-#define LEX_EAT_ONE()\
+#define LEX_EAT_ONE() \
 		BUF_APPEND(t->buf, c); \
 		LONInputRead(state->input);
 
 #define LEX_SINGLE(x, y) \
-	else if (c == x) {\
-		t->type = y;\
-		LEX_EAT_ONE();\
+	else if (c == x) { \
+		t->type = y; \
+		LEX_EAT_ONE(); \
 	}
 
 
@@ -117,6 +117,7 @@ static LONToken *lex(LONLexState *state)
 	for (;;) {
 		if (t->type != TOK_NONE) {
 			t->line = state->line;
+			t->col = state->col; // TODO: Fix this. It's broken.
 			return t;
 		}
 
@@ -143,6 +144,10 @@ static LONToken *lex(LONLexState *state)
 			} else if (c == '"') {
 				state->type = LEX_STRING;
 				LEX_EAT_ONE()
+			} else if (c == '-') {
+				if (LONInputPeek(state->input) == '-') {
+					state->type = LEX_SLCOMMENT;
+				}
 			}
 			LEX_SINGLE('{', TOK_LBRACE)
 			LEX_SINGLE('}', TOK_RBRACE)
@@ -188,6 +193,14 @@ static LONToken *lex(LONLexState *state)
 				state->type = LEX_DEFAULT;
 			}
 			break;
+		case LEX_SLCOMMENT:
+			if (c == '\n') {
+				// TODO: discard
+				state->type = LEX_DEFAULT;
+			} else {
+				LEX_EAT_ONE()
+			}
+			break;
 		}
 	}
 }
@@ -204,15 +217,17 @@ int LONLexRun(LONLexState *state)
 	success: return 0;
 }
 
+#define LEX_STATE_REALLOC_GROWTH 20
+
 void LONLexStateAppendToken(LONLexState *sta, LONToken *tok) {
 	// TODO: Move reallocation growth size to a constant or variable.
 	if (sta->tok_count == sta->tok_alloc) {
 		if (sta->tokens == NULL) {
-			sta->tokens = malloc(sizeof(LONToken *) * 20);
-			sta->tok_alloc += 20;
+			sta->tokens = malloc(sizeof(LONToken *) * LEX_STATE_REALLOC_GROWTH);
+			sta->tok_alloc += LEX_STATE_REALLOC_GROWTH;
 		} else {
-			sta->tokens = realloc(sta->tokens, sizeof(LONToken *) * (sta->tok_alloc + 20));
-			sta->tok_alloc += 20;
+			sta->tokens = realloc(sta->tokens, sizeof(LONToken *) * (sta->tok_alloc + LEX_STATE_REALLOC_GROWTH));
+			sta->tok_alloc += LEX_STATE_REALLOC_GROWTH;
 		}
 	}
 	sta->tokens[sta->tok_count++] = tok;
