@@ -9,7 +9,7 @@ set(CMAKE_CXX_COMPILER clang)
 
 # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --analyze")
 
-include_directories(${PROJECT_BINARY_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(tests)
