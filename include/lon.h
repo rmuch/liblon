@@ -49,10 +49,24 @@ typedef struct LONParser {
 LON_API void LONDebugFun1(LONParser *p);
 LON_API void LONDebugFun2(LONParser *p);
 
+/**
+ * Allocates and initializes a new LON parser.
+ */
 LON_API LONParser *LONParserCreate();
+
+/**
+ * Frees memory allocated by a LON parser.
+ */
 LON_API void LONParserDestroy(LONParser *parser);
 
+/**
+ * Parses a LON object from a string.
+ */
 LON_API int LONParserParse(LONParser *parser, char *strinput);
+
+/**
+ * Parses a LON object from a file path.
+ */
 LON_API int LONParserParseFile(LONParser *parser, char *path);
 
 #endif /* LON_H_ */
