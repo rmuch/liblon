@@ -99,7 +99,46 @@ cleanup_lexfail:
 	return r;
 }
 
-void LONDebugFun1(LONParser *p)
+/*
+ * typedef enum LONTokenType {
+	TOK_NONE,
+	TOK_EOF,
+	TOK_NAME,
+	TOK_STR,
+	TOK_NUM,
+	TOK_LBRACE,
+	TOK_RBRACE,
+	TOK_LBRACKET,
+	TOK_RBRACKET,
+	TOK_EQ,
+	TOK_SEMICOLON,
+	TOK_COMMA,
+	TOK_TRUE,
+	TOK_FALSE,
+	TOK_NULL
+} LONTokenType;
+*/
+
+// This struct should match the token list in LONTokenType.
+static char *token_types[] = {
+	"TOK_NONE",
+	"TOK_EOF",
+	"TOK_NAME",
+	"TOK_STR",
+	"TOK_NUM",
+	"TOK_LBRACE",
+	"TOK_RBRACE",
+	"TOK_LBRACKET",
+	"TOK_RBRACKET",
+	"TOK_EQ",
+	"TOK_SEMICOLON",
+	"TOK_COMMA",
+	"TOK_TRUE",
+	"TOK_FALSE",
+	"TOK_NULL"
+};
+
+void LONDebugDumpTokens(LONParser *p)
 {
 	// This is a temporary debug function.
 	// It prints out each token with the line and type ID.
@@ -113,13 +152,20 @@ void LONDebugFun1(LONParser *p)
 		}
 
 		// printf("%s\n", BUF_STR(t->buf));
-		printf("token \"%s\" on line %d with typeid %d\n",
+		printf("token \"%s\" on line %d with type %s / id %d\n",
 				BUF_STR(t->buf),
 				t->line,
+				token_types[t->type],
 				t->type);
 
 		i++;
 	}
+}
+
+void LONDebugFun1(LONParser *p)
+{
+	// This function is now an alias for LONDebugDumpTokens.
+	LONDebugDumpTokens(p);
 }
 
 void pval(LONValue *v)
@@ -139,13 +185,15 @@ void pval(LONValue *v)
 	case LON_TYPE_TABLE:
 		tbl = v->var.tbl;
 		if (v->var.tbl == NULL || tbl->head == NULL) {
-			printf("empty table\n");
+			printf("{ } -- empty table\n");
 			return;
 		}
+		printf("{\n");
 		for (n = tbl->head; n != NULL; n = n->next) {
 			pval(&n->key);
 			pval(&n->val);
 		}
+		printf("}\n");
 		break;
 	case LON_TYPE_BOOL:
 		v->var.bln ? printf("true\n") : printf("false\n");
