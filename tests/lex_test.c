@@ -31,13 +31,18 @@ int main(int argc, char *argv[])
 	char *test_1;
 	LONParser *p;
 
+	// This is very ugly.
 	test_1 = file_read("lex_test_1.lon");
 	if (test_1 == NULL) {
 		fprintf(stderr, "error: could not read lex_test_1.lon\n");
 		test_1 = file_read("tests/lex_test_1.lon");
 		if (test_1 == NULL) {
 			fprintf(stderr, "error: could not read tests/lex_test_1.lon\n");
-			return 1;
+			test_1 = file_read("../../tests/lex_test_1.lon");
+			if (test_1 == NULL) {
+				fprintf(stderr, "error: could not read ../../tests/lex_test_1.lon\n");
+				return 1;
+			}
 		}
 	}
 
