@@ -14,6 +14,9 @@ typedef struct LONBuffer {
 	int max;
 } LONBuffer;
 
+/**
+ * Returns a pointer to the data stored by the buffer as a character array.
+ */
 static inline char *LONBufferToString(LONBuffer *buf) {
 	if (buf->data == NULL) {
 		return "";
@@ -24,6 +27,9 @@ static inline char *LONBufferToString(LONBuffer *buf) {
 
 #define BUF_STR(b) LONBufferToString(b)
 
+/**
+ * Allocates and initializes a new buffer.
+ */
 static inline LONBuffer *LONBufferNew(int inc, int max)
 {
 	LONBuffer *b = LON_NEW(LONBuffer);
@@ -35,12 +41,18 @@ static inline LONBuffer *LONBufferNew(int inc, int max)
 	return b;
 }
 
+/**
+ * Frees memory used by the buffer structure and its data.
+ */
 static inline void LONBufferFree(LONBuffer *b)
 {
 	free(b->data);
 	free(b);
 }
 
+/**
+ * Appends a single character to a buffer.
+ */
 static inline void LONBufferAppend(LONBuffer *b, char c)
 {
 	if (b->pos == (b->len - 1)) {
