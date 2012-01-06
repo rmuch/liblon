@@ -34,7 +34,8 @@ typedef enum LONTokenType {
 	TOK_COMMA,
 	TOK_TRUE,
 	TOK_FALSE,
-	TOK_NULL
+	TOK_NULL,
+	TOK_COMMENT
 } LONTokenType;
 
 typedef struct LONToken {

@@ -5,7 +5,7 @@
 	[4] = 100,
 	30;
 	20,
-	{1,2,3},
+	{1,2,3}, -- test comment
 	{ },
 	something = true,
 	else = false,

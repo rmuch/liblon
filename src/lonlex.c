@@ -194,11 +194,11 @@ static LONToken *lex(LONLexState *state)
 			}
 			break;
 		case LEX_SLCOMMENT:
-			if (c == '\n') {
-				// TODO: discard
-				state->type = LEX_DEFAULT;
-			} else {
+			if (c != '\n') {
 				LEX_EAT_ONE()
+			} else {
+				t->type = TOK_COMMENT;
+				state->type = LEX_DEFAULT;
 			}
 			break;
 		}
@@ -209,7 +209,8 @@ int LONLexRun(LONLexState *state)
 {
 	LONToken *next;
 	while ((next = lex(state)) != NULL) {
-		TOK_APPEND(state, next);
+		if (next->type != TOK_COMMENT)
+			TOK_APPEND(state, next);
 		if (next->type == TOK_EOF)
 			goto success;
 	}
