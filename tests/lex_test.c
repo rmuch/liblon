@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *test1 = "{a = 1, b = 2, c = 3}";
-char *test2 = "{[\"a\"]=1;[\"b\"]    = 2;  [\"c\"] = 50; 30;20,{1,2,3}}";
+char *test1 = "{a = 1, b = 2, c = 3} -- comment 123";
+char *test2 = "{[\"a\"]=1;[\"b\"]    = 2;  [\"c\"] = 50; 30;20,{1,2,3}} -- comment 123";
 
 /**
  * Helper function to read a file into a string.
