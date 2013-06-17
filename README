@@ -1,0 +1,26 @@
+liblon 0.1 - Lua Object Notation
+================================
+
+DISCLAIMER
+----------
+
+This project should be considered as a work in progress. At this stage, it is
+far from robust, and should be treated as a learning exercise for writing
+parsers in C, rather than anything suitable for use in a production
+environment.
+
+Please see the TODO file for a list of future plans for this project, and tasks
+which could be accomplished by an interested contributor.
+
+OVERVIEW
+--------
+
+The overall aim of this project is to create an object notation syntax based
+upon the Lua programming language. Analogous to JSON for JavaScript, this would
+be based upon a subset of Lua's syntax, allowing for the representation of
+objects, but preventing unwanted execution of arbitrary code when interpreted.
+
+GETTING STARTED
+---------------
+
+

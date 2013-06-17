@@ -1,0 +1,20 @@
+This project originiated as a learning exercise for hand-writing parsers in C,
+thus there are many aspects in which it could be improved. These tasks are
+planned for the future:
+
+ * Draft a formal specification for the language, including a BNF grammar.
+
+ * Implement LONTable, LONNode as a hashtable rather than a linked list, as it
+   currently is.
+
+ * Replace the existing 'test' program with a comprehensive suite of unit
+   tests.
+
+ * Fix memory errors. Currently, there are several memory errors you'll pick
+   up with valgrind related to uninitialized memory.
+
+ * Implement error handling and reporting.
+
+ * Rewrite the core logic of the parser, based on the lessons learned writing
+   the current version, possibly making use of a libraries such as flex and
+   bison.
