@@ -112,7 +112,10 @@ static LONNode *ParseLONField(LONParseState *s)
 	LONNode *nod = LON_NEW(LONNode);
 	LONToken *t;
 	LONValue *vala, *valb;
+
+	vala = NULL; valb = NULL;
 	nod->next = NULL;
+
 	// <Name> '=' <expr>
 	if (consume(s, TOK_NAME)) {
 		t = last(s);
