@@ -135,7 +135,8 @@ static char *token_types[] = {
 	"TOK_COMMA",
 	"TOK_TRUE",
 	"TOK_FALSE",
-	"TOK_NULL"
+	"TOK_NULL",
+	"TOK_COMMENT"
 };
 
 void LONDebugDumpTokens(LONParser *p)
@@ -207,12 +208,27 @@ void pval(LONValue *v)
 	}
 }
 
-/* debug: print the whole syntax tree */
-void LONDebugFun2(LONParser *p)
+void LONDebugDumpSyntaxTree(LONParser *p)
 {
 	LONTable *t = p->parse->result;
 	LONValue *r = LON_NEW(LONValue);
 	r->type = LON_TYPE_TABLE;
 	r->var.tbl = t;
 	pval(r);
+}
+
+/* debug: print the whole syntax tree */
+void LONDebugFun2(LONParser *p)
+{
+	// This function is now an alias for LONDebugDumpSyntaxTree.
+	LONDebugDumpSyntaxTree(p);
+}
+
+LONTable *LONParserParseResult(LONParser *p)
+{
+	if (p != NULL && p->parse != NULL && p->parse->result != NULL) {
+		return p->parse->result;
+	} else {
+		return NULL;
+	}
 }
