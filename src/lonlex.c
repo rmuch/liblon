@@ -203,6 +203,8 @@ static LONToken *lex(LONLexState *state)
 			break;
 		}
 	}
+
+	printf(stderr, "WARNING: Flow reached end of lex function");
 }
 
 int LONLexRun(LONLexState *state)
